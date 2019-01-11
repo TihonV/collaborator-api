@@ -1,0 +1,8 @@
+version: "2"
+services:
+  rdbms:
+    image: postgres:10-alpine
+    ports:
+      - "5432:5432/tcp"
+    volumes:
+      - "/var/run/postgresql:/var/run/postgresql"

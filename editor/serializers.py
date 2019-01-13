@@ -1,8 +1,10 @@
 from rest_framework.serializers import (
     ModelSerializer,
     PrimaryKeyRelatedField,
+    CharField,
 )
-from .models import Author, Tag, Drawing
+from django.db.models import F
+from .models import Author, Drawing, Comment
 
 
 class AuthorSerializer(ModelSerializer):
@@ -12,40 +14,25 @@ class AuthorSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class TagSerializer(ModelSerializer):
+class CommentSerializer(ModelSerializer):
     class Meta:
-        model = Tag
+        model = Comment
         queryset = model.objects.all()
-        fields = ('name', )
+        fields = '__all__'
 
 
-class DrawingListSerializer(ModelSerializer):
-    tags = TagSerializer(read_only=True, many=True)
-    tag_keys = PrimaryKeyRelatedField(source='tags')
+class DrawingSerializer(ModelSerializer):
+    """
+    Limited queryset to active user (described in related Viewset)
+    """
+
+    author = PrimaryKeyRelatedField(queryset=AuthorSerializer.Meta.queryset)
+    author_name = CharField(read_only=True, source='author__nick_name')
 
     class Meta:
         model = Drawing
-        queryset = model.objects.annotate().all()
-        fields = (
-            'id', 'author', 'title', 'tags', 'tag_keys'
-            'preview', 'next',
-            # 'comment_count',  # TODO: Must be implemented
-        )
-
-
-class DrawingWriteSerializer(DrawingListSerializer):
-    class Meta(DrawingListSerializer.Meta):
-        fields = (
-            'id', 'author', 'last_update',
-            'tags', 'title',  'date',
-            # Stores JSON with mol1000-content
-            'data',
-        )
-
-
-class DrawingReadSerializer(DrawingListSerializer):
-    class Meta(DrawingListSerializer.Meta):
-        read_only_fields = (
-            'id', 'author', 'creation_date', 'date',
-            'last_update', 'tags', 'title', 'previous'
-        )
+        queryset = model.objects\
+            .select_related('author')\
+            .prefetch_related('comment_set')\
+            .all()
+        fields = '__all__'

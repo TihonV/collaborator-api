@@ -4,29 +4,21 @@ from rest_framework.viewsets import (
 )
 
 from . import serializers
-from .models import Tag, Drawing, Author
+from .models import Drawing, Author
 
 
 class AuthorViewset(ModelViewSet):
     serializer_class = serializers.AuthorSerializer
     queryset = serializer_class.Meta.queryset
 
-
-class TagViewset(ReadOnlyModelViewSet):
-    serializer_class = serializers.TagSerializer
-    queryset = serializer_class.Meta.queryset
+    http_method_names = ('get', 'post', 'options')
 
 
-class ViewDrawingViewset(ReadOnlyModelViewSet):
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return serializers.DrawingListSerializer
-        return serializers.DrawingReadSerializer
-
-    def get_queryset(self):
-        return self.get_serializer_class().Meta.queryset
+class UserViewset(AuthorViewset):
+    lookup_field = 'nick_name'
 
 
-class EditDrawingViewset(ModelViewSet):
-    serializer_class = serializers.DrawingWriteSerializer
-    queryset = serializer_class.Meta.queryset
+class ViewDrawingViewset(ModelViewSet):
+    queryset = serializers.DrawingSerializer.Meta.queryset
+    serializer_class = serializers.DrawingSerializer
+

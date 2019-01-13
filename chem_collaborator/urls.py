@@ -21,3 +21,4 @@ urlpatterns = [
     path('', index),
     path('api/v0/editor/', include('editor.urls')),
 ]
+# TODO: resolve issues with Azure Storage

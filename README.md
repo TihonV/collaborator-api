@@ -24,3 +24,7 @@ python ./manage.py collectstatic
 python -m gunicorn chem_collaborator.wsgi:application
 ```
 
+# Update frontend
+
+Copy staticfiles from `chem-collaborator-client` to `editor/static` and 
+fix links into `templates/index.js`

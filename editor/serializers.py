@@ -1,9 +1,8 @@
 from rest_framework.serializers import (
     ModelSerializer,
     PrimaryKeyRelatedField,
-    CharField,
+    ReadOnlyField,
 )
-from django.db.models import F
 from .models import Author, Drawing, Comment
 
 
@@ -27,7 +26,7 @@ class DrawingSerializer(ModelSerializer):
     """
 
     author = PrimaryKeyRelatedField(queryset=AuthorSerializer.Meta.queryset)
-    author_name = CharField(read_only=True, source='author__nick_name')
+    author_name = ReadOnlyField(source='author.nick_name')
 
     class Meta:
         model = Drawing

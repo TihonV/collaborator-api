@@ -29,7 +29,6 @@ class Drawing(Model):
     """
     Drawing describes all drawled objects
     stores drawing in mol1000 fmt
-    and contain links to author, previous image (if exists) and preview
     """
     # service fields
     creation_date = DateTimeField(auto_created=True, auto_now_add=True)
@@ -41,6 +40,7 @@ class Drawing(Model):
     # picture related fields
     title = CharField(max_length=80)
     description = CharField(max_length=1200)
+    # stores molfile content in ["file"]
     data = JSONField(default=dict)
 
 

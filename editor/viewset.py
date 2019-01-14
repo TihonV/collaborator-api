@@ -17,6 +17,7 @@ class AuthorViewset(ModelViewSet):
 
 class UserViewset(AuthorViewset):
     lookup_field = 'nick_name'
+    http_method_names = ('get', 'post')
 
 
 class CommentViewset(ModelViewSet):
@@ -24,6 +25,8 @@ class CommentViewset(ModelViewSet):
     serializer_class = serializers.CommentSerializer
     filter_backends = (DjangoFilterBackend, )
     filter_fields = ('drawing', )
+
+    http_method_names = ('get', 'post')
 
 
 class ViewDrawingViewset(ModelViewSet):

@@ -14,6 +14,10 @@ class AuthorSerializer(ModelSerializer):
 
 
 class CommentSerializer(ModelSerializer):
+    drawing = PrimaryKeyRelatedField(queryset=Drawing.objects.all())
+    author = PrimaryKeyRelatedField(queryset=AuthorSerializer.Meta.queryset)
+    author_name = ReadOnlyField(source='author.nick_name')
+
     class Meta:
         model = Comment
         queryset = model.objects.all()
@@ -27,6 +31,8 @@ class DrawingSerializer(ModelSerializer):
 
     author = PrimaryKeyRelatedField(queryset=AuthorSerializer.Meta.queryset)
     author_name = ReadOnlyField(source='author.nick_name')
+
+    comment_set = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Drawing

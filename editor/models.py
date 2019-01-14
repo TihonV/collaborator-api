@@ -13,6 +13,7 @@ from django.db.models import (
     # Actions
     CASCADE,
     PROTECT,
+    SET_NULL,
 )
 from django.contrib.postgres.fields import JSONField
 
@@ -46,4 +47,5 @@ class Drawing(Model):
 class Comment(Model):
     time = DateTimeField(auto_created=True, auto_now_add=True)
     drawing = ForeignKey('Drawing', on_delete=CASCADE)
+    author = ForeignKey('Author', on_delete=SET_NULL, null=True)
     comment = CharField(max_length=240)

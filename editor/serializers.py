@@ -20,7 +20,7 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
-        queryset = model.objects.all()
+        queryset = model.objects.select_related('author', 'drawing').all()
         fields = '__all__'
 
 

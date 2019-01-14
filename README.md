@@ -1,7 +1,11 @@
+# Requirements
+
+- python version must be 3.6 or newer
+- postgresql version must be 9.6 or newer
+
 # Deployment procedure
 
 ```bash
-# python version must be 3.6 or above
 # you must clone project to server
 
 # prepare enviroment
@@ -19,3 +23,4 @@ python ./manage.py collectstatic
 # run server
 python -m gunicorn chem_collaborator.wsgi:application
 ```
+

@@ -20,7 +20,7 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
-        queryset = model.objects.select_related('author', 'drawing').all()
+        queryset = model.objects.select_related('author', 'drawing').order_by('-time').all()
         fields = '__all__'
 
 
@@ -38,6 +38,7 @@ class DrawingSerializer(ModelSerializer):
         model = Drawing
         queryset = model.objects\
             .select_related('author')\
-            .prefetch_related('comment_set')\
+            .prefetch_related('comment_set') \
+            .order_by('-last_update')\
             .all()
         fields = '__all__'

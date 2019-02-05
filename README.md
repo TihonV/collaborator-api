@@ -1,3 +1,6 @@
+# Description
+Server for online molecule editor.
+
 # Requirements
 
 - python version must be 3.6 or newer

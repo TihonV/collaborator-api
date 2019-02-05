@@ -6,8 +6,7 @@ Server for online molecule editor.
 - python version must be 3.6 or newer
 - postgresql version must be 9.6 or newer
 
-# Deployment procedure
-
+# How to
 ```bash
 # you must clone project to server
 
